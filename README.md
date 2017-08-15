@@ -1,7 +1,5 @@
-# 百度地图定位Cordova插件，支持Android，IOS
+# 百度地图定位Cordova插件，支持Android，---IOS---
 
-
-### 可以在此地址查看[example](https://github.com/aruis/testbmap-cordova-ionic)
 
 __致谢: 本插件Android开发主要参考 [cordova-qdc-baidu-location](https://github.com/liangzhenghui/cordova-qdc-baidu-location),感谢[liangzhenghui](https://github.com/liangzhenghui)；IOS开发主要参考[cordova-plugin-bdlocation](https://github.com/wilhantian/cordova-plugin-bdlocation)，感谢[wilhantian](https://github.com/wilhantian)__
 
@@ -20,7 +18,7 @@ __Android 版原作者[mrwutong](https://github.com/mrwutong)的话__
 >__此插件就这么诞生了__
 
 #### 零，版本
-基于百度地图Android版定位SDK（v7.1）以及百度地图IOS SDK （v3.2.1）
+基于百度地图Android版定位SDK（v7.2）以及百度地图IOS SDK （v3.2.1）
 
 #### 一，申请Android及IOS版密钥
 [申请密钥Android定位SDK](http://developer.baidu.com/map/index.php?title=android-locsdk/guide/key)
@@ -34,7 +32,7 @@ __Android 版原作者[mrwutong](https://github.com/mrwutong)的话__
 #### 二，安装插件
 
 ```shell
-cordova plugin add cordova-plugin-baidumaplocation --variable ANDROID_KEY="<API_KEY_ANDROID>" --variable IOS_KEY="<API_KEY_IOS>"
+cordova plugin add git@gitlab.linkcld.com:govapp/cordova-plugin-bmap-geolocation.git --variable ANDROID_KEY="<API_KEY_ANDROID>" --variable IOS_KEY="<API_KEY_IOS>"
 # 此处的API_KEY_XX来自于第一步，直接替换<API_KEY_XX>，也可以最后跟 --save 参数，将插件信息保存到config.xml中
 # 如果只需要Android端或者IOS端，可以只填写一个相应的AK，但是都不填肯定不行
 ```
@@ -43,11 +41,16 @@ cordova plugin add cordova-plugin-baidumaplocation --variable ANDROID_KEY="<API_
 
 ```javascript
 // 进行定位
-baidumap_location.getCurrentPosition(function (result) {
+bmapGeolocation.configure(function (result) {
     console.log(JSON.stringify(result, null, 4));
 }, function (error) {
 
 });
+
+bmapGeolocation.start(function(){}, function(error){});
+
+bmapGeolocation.stop();
+
 ```
 
 获得定位信息，返回JSON格式数据:
@@ -72,7 +75,7 @@ baidumap_location.getCurrentPosition(function (result) {
 }
 ```
 具体字段内容请参照：
->[Android版 BDLocation v7.1](http://wiki.lbsyun.baidu.com/cms/androidloc/doc/v7.1/index.html)
+>[Android版 BDLocation v7.2](http://wiki.lbsyun.baidu.com/cms/androidloc/doc/v7.2/index.html)
 
 >[IOS版 BMKUserLocation](http://wiki.lbsyun.baidu.com/cms/iossdk/doc/v3_2_0/html/interface_b_m_k_user_location.html#aba4b76e55f4605c5554fe16aca1b4fbf) 
 
