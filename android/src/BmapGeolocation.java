@@ -26,12 +26,14 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.linkcld.cordova.PermissionHelper;
+
 /**
  * 百度定位cordova插件android端
  *
  * @author jack
  */
-public class BaiduMapLocation extends CordovaPlugin {
+public class BmapGeolocation extends CordovaPlugin {
 
     public static final String ACTION_START = "start";
     public static final String ACTION_STOP = "stop";
@@ -40,13 +42,14 @@ public class BaiduMapLocation extends CordovaPlugin {
     /**
      * LOG TAG
      */
-    private static final String LOG_TAG = BaiduMapLocation.class.getSimpleName();
+    private static final String LOG_TAG = BmapGeolocation.class.getSimpleName();
     
        /**
      * 安卓6以上动态权限相关
      */
     private static final int REQUEST_CODE = 100001;
     public static final int PERMISSION_DENIED_ERROR_CODE = 2;
+    public static final String[] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION };
 
     /**
      * JS回调接口对象
@@ -93,7 +96,7 @@ public class BaiduMapLocation extends CordovaPlugin {
     public BDLocationListener myListener = new BDLocationListener() {
         @Override
         public void onReceiveLocation(BDLocation location) {
-            this.currentLocation = location;
+            currentLocation = location;
             try {
                 JSONObject json = new JSONObject();
 
@@ -139,32 +142,29 @@ public class BaiduMapLocation extends CordovaPlugin {
             } 
         }
 
-
-        @Override
-        public void onConnectHotSpotMessage(String s, int i) {
-        }
     };
 
     private boolean hasPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return !cordova.hasPermission(Manifest.permission.ACCESS_COARSE_LOCATION) || !cordova.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION);
-        } else {
-            return false;
+        for(String p : permissions) {
+            if(!PermissionHelper.hasPermission(this, p)) {
+                return false;
+            }
         }
+        return true;
     }
 
     private void requestPermission() {
         ArrayList<String> permissionsToRequire = new ArrayList<String>();
 
-        if (!cordova.hasPermission(Manifest.permission.ACCESS_COARSE_LOCATION))
-            permissionsToRequire.add(Manifest.permission.ACCESS_COARSE_LOCATION);
-
-        if (!cordova.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION))
-            permissionsToRequire.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        for(String p : permissions) {
+            if(!PermissionHelper.hasPermission(this, p)) {
+                permissionsToRequire.add(p);
+            }
+        }
 
         String[] _permissionsToRequire = new String[permissionsToRequire.size()];
         _permissionsToRequire = permissionsToRequire.toArray(_permissionsToRequire);
-        cordova.requestPermissions(this, REQUEST_CODE, _permissionsToRequire);
+        PermissionHelper.requestPermissions(this, REQUEST_CODE, _permissionsToRequire);
     }
 
     public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) throws JSONException {
@@ -195,7 +195,7 @@ public class BaiduMapLocation extends CordovaPlugin {
      * 插件主入口
      */
     @Override
-    public boolean execute(String action, final JSONArray args, CallbackContext callbackContext) throws JSONException {
+    public boolean execute(String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
         
         if (ACTION_START.equalsIgnoreCase(action)) {
             executorService.execute(new Runnable() {
@@ -205,9 +205,10 @@ public class BaiduMapLocation extends CordovaPlugin {
                         return;
                     }
                     if (!hasPermissions()) {
-                        log.info("Requesting permissions from user");
+
+                        //log.info("Requesting permissions from user");
                         actionStartCallbackContext = callbackContext;
-                        PermissionHelper.requestPermissions(getSelf(), START_REQ_CODE, permissions);
+                        requestPermission();
                         return;
                     }
                     startLocationClient();
@@ -228,14 +229,14 @@ public class BaiduMapLocation extends CordovaPlugin {
             executorService.execute(new Runnable() {
                 public void run() {
                     try {
-                        config = Config.fromJSONObject(args.getJSONObject(0));
+                        //config = Config.fromJSONObject(args.getJSONObject(0));
                         configueLocation();
                         // callbackContext.success(); //we cannot do this
-                    } catch (JSONException e) {
-                        log.error("Configuration error: {}", e.getMessage());
-                        callbackContext.error("Configuration error: " + e.getMessage());
+                    //}  catch (JSONException e) {
+                        //log.error("Configuration error: {}", e.getMessage());
+                     //   callbackContext.error("Configuration error: " + e.getMessage());
                     } catch (NullPointerException e) {
-                        log.error("Configuration error: {}", e.getMessage());
+                        //log.error("Configuration error: {}", e.getMessage());
                         callbackContext.error("Configuration error: " + e.getMessage());
                     }
                 }

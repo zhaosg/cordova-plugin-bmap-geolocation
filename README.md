@@ -32,7 +32,7 @@ __Android 版原作者[mrwutong](https://github.com/mrwutong)的话__
 #### 二，安装插件
 
 ```shell
-cordova plugin add git@gitlab.linkcld.com:govapp/cordova-plugin-bmap-geolocation.git --variable ANDROID_KEY="<API_KEY_ANDROID>" --variable IOS_KEY="<API_KEY_IOS>"
+cordova plugin add http://gitlab.linkcld.com:govapp/cordova-plugin-bmap-geolocation --variable ANDROID_KEY="<API_KEY_ANDROID>" --variable IOS_KEY="<API_KEY_IOS>"
 # 此处的API_KEY_XX来自于第一步，直接替换<API_KEY_XX>，也可以最后跟 --save 参数，将插件信息保存到config.xml中
 # 如果只需要Android端或者IOS端，可以只填写一个相应的AK，但是都不填肯定不行
 ```

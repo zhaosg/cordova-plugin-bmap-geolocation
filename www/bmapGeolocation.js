@@ -1,7 +1,7 @@
 var exec = require('cordova/exec');
 var emptyFnc = function(){};
 
-var bmapGeolocation = {
+var BmapGeolocation = {
     configure: function(success, failure, config) {
         exec(success || emptyFnc,
             failure || emptyFnc,
@@ -77,4 +77,4 @@ function createTimeout(errorCallback, timeout) {
     return t;
 }
 
-module.exports = bmapGeolocation;
+module.exports = BmapGeolocation;
