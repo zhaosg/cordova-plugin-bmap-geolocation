@@ -1,0 +1,33 @@
+{
+  "name": "cordova-plugin-bmap-geolocation",
+  "version": "3.1.2",
+  "description": "Cordova Geolocation Plugin,use Baidu Map SDK",
+  "cordova": {
+    "id": "cordova-plugin-bmap-geolocation",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+http://gitlab.linkcld.com/govapp/cordova-plugin-bmap-geolocation.git"
+  },
+  "keywords": [
+    "cordova",
+    "baidu",
+    "location",
+    "geolocation",
+    "device",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "author": "aruis",
+  "license": "Apache-2.0",
+  "engines": {
+    "cordovaDependencies": {
+      "2.0.0": { "cordova-android": ">=5.0.0" },
+      "3.0.0": { "cordova-android": ">=5.0.0" }
+    }
+  }
+}
