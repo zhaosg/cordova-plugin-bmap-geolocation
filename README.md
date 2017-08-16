@@ -1,4 +1,4 @@
-# 百度地图定位Cordova插件，支持Android，---IOS---
+# 百度地图定位Cordova插件，支持Android，~~~IOS~~~
 
 
 __致谢: 本插件Android开发主要参考 [cordova-qdc-baidu-location](https://github.com/liangzhenghui/cordova-qdc-baidu-location),感谢[liangzhenghui](https://github.com/liangzhenghui)；IOS开发主要参考[cordova-plugin-bdlocation](https://github.com/wilhantian/cordova-plugin-bdlocation)，感谢[wilhantian](https://github.com/wilhantian)__

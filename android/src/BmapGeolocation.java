@@ -117,8 +117,16 @@ public class BmapGeolocation extends CordovaPlugin {
                 json.put("province", location.getProvince());
 
                 json.put("userIndoorState", location.getUserIndoorState());
-                json.put("direction", location.getDirection());
                 json.put("locationDescribe", location.getLocationDescribe());
+
+                if (location.getLocType() == BDLocation.TypeGpsLocation){
+                    
+                    //当前为GPS定位结果，可获取以下信息
+                    json.put("direction", location.getDirection());//获取方向信息，单位度
+                    json.put("speed",location.getSpeed());//获取当前速度，单位：公里每小时
+                    json.put("altitude", location.getAltitude()); //获取海拔高度信息，单位米
+         
+                }
 
                 PluginResult pluginResult;
                 if (location.getLocType() == BDLocation.TypeServerError
@@ -127,10 +135,11 @@ public class BmapGeolocation extends CordovaPlugin {
 
                     json.put("msg", "定位失败");
                     pluginResult = new PluginResult(PluginResult.Status.ERROR, json);
+                    pluginResult.setKeepCallback(true);
                 } else {
                     pluginResult = new PluginResult(PluginResult.Status.OK, json);
+                    pluginResult.setKeepCallback(true);
                 }
-
 
                 cbCtx.sendPluginResult(pluginResult);
             } catch (JSONException e) {
@@ -183,7 +192,6 @@ public class BmapGeolocation extends CordovaPlugin {
         }
         switch (requestCode) {
             case REQUEST_CODE:
-
                 actionStartCallbackContext.success();
                 actionStartCallbackContext = null;
                 break;
@@ -205,12 +213,12 @@ public class BmapGeolocation extends CordovaPlugin {
                         return;
                     }
                     if (!hasPermissions()) {
-
-                        //log.info("Requesting permissions from user");
+                        LOG.i(LOG_TAG,"Requesting permissions from user");
                         actionStartCallbackContext = callbackContext;
                         requestPermission();
                         return;
                     }
+                    LOG.i(LOG_TAG,"start location client!-----");
                     startLocationClient();
                     callbackContext.success();
                 }
@@ -236,7 +244,7 @@ public class BmapGeolocation extends CordovaPlugin {
                         //log.error("Configuration error: {}", e.getMessage());
                      //   callbackContext.error("Configuration error: " + e.getMessage());
                     } catch (NullPointerException e) {
-                        //log.error("Configuration error: {}", e.getMessage());
+                        LOG.e(LOG_TAG,"Configuration error: ", e);
                         callbackContext.error("Configuration error: " + e.getMessage());
                     }
                 }
