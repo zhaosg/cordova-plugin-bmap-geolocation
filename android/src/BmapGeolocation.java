@@ -1,4 +1,4 @@
-package com.linkcld.cordova;
+package com.linkcld.cordova.bmap;
 
 
 import android.Manifest;
@@ -223,6 +223,8 @@ public class BmapGeolocation extends CordovaPlugin {
                     callbackContext.success();
                 }
             });
+
+            return true;
         } else if (ACTION_STOP.equalsIgnoreCase(action)) {
             executorService.execute(new Runnable() {
                 public void run() {
