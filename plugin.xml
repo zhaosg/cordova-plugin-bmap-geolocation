@@ -123,8 +123,8 @@
         </config-file>
 
         <!--源文件-->
-        <header-file src="src/ios/BmapGeolocation.h"/>
-        <source-file src="src/ios/BmapGeolocation.mm"/>
+        <header-file src="ios/src/BmapGeolocation.h"/>
+        <source-file src="ios/src/BmapGeolocation.mm"/>
 
         <!--库文件-->
         <framework src="ios/libs/BaiduMapAPI_Base.framework" custom="true"/>
